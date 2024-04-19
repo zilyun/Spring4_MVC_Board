@@ -43,7 +43,7 @@ $(function () {
 			<b>Password</b>
 			<input type="password" name="password" placeholder="Enter password" required>
 			<label>
-				<input type="checkbox" name="saveid" style="margin-bottom:15px"
+				<input type="checkbox" name="remember" style="margin-bottom:15px"
 					<c:if test="${!empty saveid}">
 						checked
 					</c:if>

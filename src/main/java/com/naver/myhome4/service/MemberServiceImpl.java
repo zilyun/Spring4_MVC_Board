@@ -20,15 +20,23 @@ public class MemberServiceImpl implements MemberService {
 	
 	
 	@Override
-	public int isId(String id, String pass) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int isId(String id, String password) {
+		int result = -1; // 아이디가 존재하지 않는 경우 - rmember가 null 인 경우 
+		
+		Member rmember = dao.isId(id);
+		if(rmember!=null) { // 아이디가 존재하는 경우 
+			if(rmember.getPassword().equals(password)) {
+				result = 1; // 아이디와 비밀번호가 일치하는 경우
+			} else {
+				result = 0; // 아이디는 존재하지만 비밀번호가 일치하지 않는 경우
+			}
+		}
+		return result;
 	}
 
 	@Override
 	public int insert(Member m) {
-		// TODO Auto-generated method stub
-		return 0;
+		return dao.insert(m);
 	}
 
 	@Override

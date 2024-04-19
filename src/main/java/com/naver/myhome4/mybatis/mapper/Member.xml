@@ -13,4 +13,9 @@
 	<select id="isId" resultType="member">
 		SELECT * FROM member WHERE id = #{id}
 	</select>
+	
+	<insert id="insert">
+		INSERT INTO member VALUES(#{id},#{password},#{name},#{age},#{gender},#{email})
+	</insert>
+	
 </mapper>

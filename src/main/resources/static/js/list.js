@@ -1,14 +1,13 @@
-$(document).ready(function() {
-	$("button").click(function() {
-		location.href = "BoardWrite.bo";
-	})
-
+$(function() {
 	$("#viewcount").change(function() {
 		go(1); // 보여줄 페이지를 1페이지로 설정합니다.
 	}); // change end
+
+	$("button").click(function() {
+		location.href = "write";
+	})
 });
 
-	
 function go(page) {
 	const limit = $('#viewcount').val();
 	/* const data = `limit=${limit}&state=ajax&page=${page}`; */
@@ -22,7 +21,7 @@ function ajax(sdata) {
 	$.ajax({
 		type: "POST",
 		data: sdata,
-		url: "BoardList.bo",
+		url: "list_ajax",
 		dataType: "json",
 		cache: false,
 		success: function(data) {
@@ -38,28 +37,28 @@ function ajax(sdata) {
 				$(data.boardlist).each(
 					function(index, item) {
 						output +='<tr><td>' + (num--) + '</td>'
-						const blank_count = item.board_re_lev * 2 + 1;
+						const blank_count = item.board_RE_LEV * 2 + 1;
 						let blank = '&nbsp;';
 						for (let i=0; i < blank_count; i++) {
 							blank += '&nbsp;&nbsp;';
 						}
 						
 						let img = "";
-						if (item.board_re_lev > 0) {
+						if (item.BOARD_RE_LEV > 0) {
 							img = "<img src='image/line.gif'>";
 						}
 						
-						let subject = item.board_subject;
+						let subject = item.board_SUBJECT;
 						if (subject.length >= 20) {
 							subject = subject.substr(0,20) + "..."; //0부터 20개의 부분 문자열 추출
 						}
 						output += "<td><div>" + blank + img
-						output += ' <a href="BoardDetail.bo?num=' + item.board_num + '">';
+						output += ' <a href="detail?num=' + item.board_NUM + '">';
 						output += subject.replace(/</g,'&lt;').replace(/>/g,'&gt;')
-								  + '</a>[' + item.cnt + ']</div></td>'
-						output += '<td><div>' + item.board_name + '</div></td>'
-						output += '<td><div>' + item.board_date + '</div></td>'
-						output += '<td><div>' + item.board_readcount + '</div></td></tr>'
+								  + '</a>[' /*+ item.cnt*/ + ']</div></td>'
+						output += '<td><div>' + item.board_NAME + '</div></td>'
+						output += '<td><div>' + item.board_DATE + '</div></td>'
+						output += '<td><div>' + item.board_READCOUNT + '</div></td></tr>'
 					}
 				)
 			

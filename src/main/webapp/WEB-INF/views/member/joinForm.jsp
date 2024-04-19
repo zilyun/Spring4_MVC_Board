@@ -88,26 +88,26 @@ $(function() {
 </script>
 <body style="background-color: #474e5d">
 	<div class="container">
-		<form method="post" action="joinProcess.net" name="joinform">
-			<h1>회원가입</h1>
+		<form method="post" action="joinProcess" name="joinform">
+			<h1>회원가입 페이지</h1>
 			<hr>
 			<b>아이디</b> 
-			<input type="text" name="id" id="id" placeholder="Enter ID" required>
+			<input type="text" name="id" id="id" placeholder="Enter ID" required maxlength="12">
 			<span id="id_message"></span>
 
 			<b>비밀번호</b> 
 			<input type="password" name="password" id="pass" placeholder="Enter Password" required>
 
 			<b>이름</b>
-			<input type="text" name="name" placeholder="Enter name" maxlength="5" required> 
+			<input type="text" name="name" placeholder="Enter name" maxlength="15" required> 
 				
 			<b>나이</b>
 			<input type="text" name="age" maxlength="2" placeholder="Enter age" required> 
 			
 			<b>성별</b>
 			<div>
-				<input type="radio" name="gender" value="남" id="gender1" checked><span>남자</span>
-				<input type="radio" name="gender" value="여" id="gender2"><span>여자</span>
+				<input type="radio" name="gender" value="남" checked><span>남자</span>
+				<input type="radio" name="gender" value="여"><span>여자</span>
 			</div>
 
 			<b>이메일 주소</b>

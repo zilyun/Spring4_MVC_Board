@@ -25,6 +25,14 @@ body > div > table > thead > tr:nth-child(2) > th:nth-child(1) {width:14%}
 body > div > table > thead > tr:nth-child(2) > th:nth-child(1) {width:17%}
 body > div > table > thead > tr:nth-child(2) > th:nth-child(1) {width:11%}
 </style>
+<script>
+const result="${result}";
+if(result == 'deleteSuccess') {
+	alert("삭제 성공 입니다.")
+} else if(result == 'updateSuccess'){
+	alert("회원 정보가 수정되었습니다.")
+}
+</script>
 <script src="${pageContext.request.contextPath}/js/list.js?v=1.12"></script>
 <title>MVC 게시판</title>
 </head>
@@ -72,30 +80,30 @@ body > div > table > thead > tr:nth-child(2) > th:nth-child(1) {width:11%}
 								 board_re_lev, board_num, 
 								 board_subject, board_name, board_date,
 								 board_readcount : property 이름 --%>
-							<c:if test="${b.board_re_lev != 0}"> <%-- 답글인 경우 --%>
-								<c:forEach var="a" begin="0" end="${b.board_re_lev*2}" step="1">
+							<c:if test="${b.BOARD_RE_LEV != 0}"> <%-- 답글인 경우 --%>
+								<c:forEach var="a" begin="0" end="${b.BOARD_RE_LEV*2}" step="1">
 								&nbsp;
 								</c:forEach>
 								<img src='${pageContext.request.contextPath}/image/line.gif'>
 							</c:if>
 							
-							<c:if test="${b.board_re_lev == 0}"> <%-- 원문인 경우 --%>
+							<c:if test="${b.BOARD_RE_LEV == 0}"> <%-- 원문인 경우 --%>
 								&nbsp;
 							</c:if>
 							
-							<a href="BoardDetail.bo?num=${b.board_num}">
-								<c:if test="${b.board_subject.length()>=20}">
-									<c:out value="${b.board_subject.substring(0,20)}..." />
+							<a href="detail?num=${b.BOARD_NUM}">
+								<c:if test="${b.BOARD_SUBJECT.length()>=20}">
+									<c:out value="${b.BOARD_SUBJECT.substring(0,20)}..." />
 								</c:if>
-								<c:if test="${b.board_subject.length()<20}">
-									<c:out value="${b.board_subject}" />
+								<c:if test="${b.BOARD_SUBJECT.length()<20}">
+									<c:out value="${b.BOARD_SUBJECT}" />
 								</c:if>
-							</a>[${b.cnt}]
+							</a><%-- [${b.CNT}] --%>
 						</div>
 					</td>
-					<td><div>${b.board_name}</div></td>
-					<td><div>${b.board_date}</div></td>
-					<td><div>${b.board_readcount}</div></td>
+					<td><div>${b.BOARD_NAME}</div></td>
+					<td><div>${b.BOARD_DATE}</div></td>
+					<td><div>${b.BOARD_READCOUNT}</div></td>
 				</tr>
 			</c:forEach>
 			</tbody>

@@ -6,7 +6,7 @@ import com.naver.myhome4.domain.Member;
 
 public interface MemberService {
 
-	public int isId(String id, String pass);
+	public int isId(String id, String password);
 	
 	public int insert(Member m);
 	
