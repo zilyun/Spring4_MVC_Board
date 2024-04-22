@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.naver.myhome4.domain.Board;
 import com.naver.myhome4.mybatis.mapper.BoardMapper;
@@ -31,7 +32,6 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public List<Board> getBoardList(int page, int limit) {
-		
 		HashMap<String, Integer> map = new HashMap<String, Integer>();
 		int startrow = (page - 1) * limit + 1;
 		int endrow   = startrow + limit - 1;
@@ -42,44 +42,48 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public Board getDetail(int num) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public int boardReply(Board board) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int boardModify(Board modifyboard) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int boardDelete(int num) {
-		// TODO Auto-generated method stub
-		return 0;
+		return dao.getDetail(num);
 	}
 
 	@Override
 	public int setReadCountUpdate(int num) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public boolean isBoardWriter(int num, String pass) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public int boardReplyUpdate(Board board) {
-		// TODO Auto-generated method stub
-		return 0;
+		return dao.setReadCountUpdate(num);
 	}
 	
+	@Override
+	public boolean isBoardWriter(int num, String pass) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("num", num);
+		map.put("pass", pass);
+		Board result = dao.isBoardWriter(map);
+		if(result == null)
+			return false;
+		else 
+			return true;
+	}
+	
+	@Override
+	public int boardModify(Board modifyboard) {
+		return dao.boardModify(modifyboard);
+	}
+	
+	@Override
+	public int boardDelete(int num) {
+		return dao.boardDelete(getDetail(num));
+	}
+	
+	@Override
+	public int boardReplyUpdate(Board board) {
+		return dao.boardReplyUpdate(board);
+	}
+
+	@Override
+	@Transactional
+	public int boardReply(Board board) {
+		boardReplyUpdate(board);
+		board.setBOARD_RE_LEV(board.getBOARD_RE_LEV()+1);
+		board.setBOARD_RE_SEQ(board.getBOARD_RE_SEQ()+1);
+		return dao.boardReply(board);
+	}
+
 }

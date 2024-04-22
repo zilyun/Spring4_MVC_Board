@@ -20,8 +20,7 @@ public class CommentServiceImpl implements CommentService {
 	
 	@Override
 	public int getListCount(int board_num) {
-		// TODO Auto-generated method stub
-		return 0;
+		return dao.getListCount(board_num);
 	}
 
 	@Override

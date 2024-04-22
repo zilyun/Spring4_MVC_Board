@@ -45,7 +45,7 @@ function ajax(sdata) {
 						
 						let img = "";
 						if (item.BOARD_RE_LEV > 0) {
-							img = "<img src='image/line.gif'>";
+							img = "<img src='../image/line.gif'>";
 						}
 						
 						let subject = item.board_SUBJECT;

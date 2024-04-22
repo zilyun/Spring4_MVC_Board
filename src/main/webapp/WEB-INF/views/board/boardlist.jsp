@@ -118,7 +118,7 @@ if(result == 'deleteSuccess') {
 				</c:if>
 				<c:if test="${page > 1}">
 					<li class="page-item">
-						<a href="BoardList.bo?page=${page-1}"
+						<a href="list?page=${page-1}"
 						   class="page-link">이전&nbsp;</a>
 					</li>
 				</c:if>
@@ -131,7 +131,7 @@ if(result == 'deleteSuccess') {
 					</c:if>
 					<c:if test="${a != page}">
 						<li class="page-item">
-							<a href="BoardList.bo?page=${a}"
+							<a href="list?page=${a}"
 							   class="page-link">${a}</a>
 						</li>
 					</c:if>
@@ -144,7 +144,7 @@ if(result == 'deleteSuccess') {
 				</c:if>
 				<c:if test="${page < maxpage}">
 					<li class="page-item">
-						<a href="BoardList.bo?page=${page+1}"
+						<a href="list?page=${page+1}"
 						   class="page-link">&nbsp;다음</a>
 					</li>
 				</c:if>
