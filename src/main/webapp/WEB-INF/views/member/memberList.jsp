@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>회원관리 시스템 관리자모드(회원 목록 보기)</title>
-<jsp:include page="/board/header.jsp" />
+<jsp:include page="../board/header.jsp" />
 <link href="${pageContext.request.contextPath}/css/memberList.css" type="text/css" rel="stylesheet">
 <%--
 	1. 검색어를 입력한 후 다시 memberList.net 으로 온 경우 검색 필드와 검색어가 나타나도록 합니다.
@@ -82,7 +82,7 @@
 </head>
 <body>
 	<div class="container">
-		<form action="memberList.net" method="post">
+		<form action="list" method="post">
 			<div class="input-group">
 				<select id="viewcount" name="search_field">
 					<option value="0" selected>아이디</option>
@@ -111,11 +111,11 @@
 					</tr>
 				</thead>
 				<tbody>
-					<c:forEach var="m" items="${totallist}">
+					<c:forEach var="m" items="${memberlist}">
 						<tr>
-							<td><a href="memberInfo.net?id=${m.id}">${m.id}</a></td>
+							<td><a href="info?id=${m.id}">${m.id}</a></td>
 							<td>${m.name}</td>
-							<td><a href="memberDelete.net?id=${m.id}">삭제</a></td>
+							<td><a href="delete?id=${m.id}">삭제</a></td>
 						</tr>
 					</c:forEach>
 				</tbody>
@@ -129,7 +129,7 @@
 					</c:if>
 					<c:if test="${page > 1}">
 						<li class="page-item">
-							<a href="memberList.net?page=${page-1}&search_field=${search_field}&search_word=${search_word}"
+							<a href="list?page=${page-1}&search_field=${search_field}&search_word=${search_word}"
 								class="page-link">이전</a>&nbsp;
 						</li>
 					</c:if>
@@ -141,7 +141,7 @@
 							</li>
 						</c:if>
 						<c:if test="${a != page}">
-							<c:url var="go" value="memberList.net">
+							<c:url var="go" value="list">
 								<c:param name="page" 		 value="${a}" />
 								<c:param name="search_field" value="${search_field}" />
 								<c:param name="search_word"  value="${search_word}" />
@@ -158,7 +158,7 @@
 						</li>
 					</c:if>
 					<c:if test="${page < maxpage}">
-						<c:url var="next" value="memberList.net">
+						<c:url var="next" value="list">
 							<c:param name="page"			value="${page+1}" />
 							<c:param name="search_field"	value="${search_field}" />
 							<c:param name="search_word" 	value="${search_word}" />

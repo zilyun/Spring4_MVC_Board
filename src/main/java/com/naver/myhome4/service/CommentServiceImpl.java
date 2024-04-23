@@ -24,15 +24,14 @@ public class CommentServiceImpl implements CommentService {
 	}
 
 	@Override
-	public List<Comment> getCommentList(int board_num, int page) {
-		// TODO Auto-generated method stub
-		return null;
+	public int commentsInsert(Comment c) {
+		return dao.commentsInsert(c);
 	}
 
 	@Override
-	public int commentsInsert(Comment c) {
+	public List<Comment> getCommentList(int board_num, int page) {
 		// TODO Auto-generated method stub
-		return 0;
+		return null;
 	}
 
 	@Override

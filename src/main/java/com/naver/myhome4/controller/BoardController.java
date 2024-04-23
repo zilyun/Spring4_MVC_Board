@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -26,7 +27,9 @@ import com.naver.myhome4.domain.Board;
 import com.naver.myhome4.service.BoardService;
 import com.naver.myhome4.service.CommentService;
 
+import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 @Controller
 @RequestMapping(value = "/board")
@@ -384,5 +387,33 @@ public class BoardController {
 			rattr.addFlashAttribute("result", "deleteSuccess");
 			return "redirect:list";
 		}
+	}
+	
+	@ResponseBody
+	@PostMapping("/down")
+	public byte[] BoardFileDown(String filename,
+								HttpServletRequest request,
+								String original,
+								HttpServletResponse response) throws Exception {
+		
+		String savePath = "resources/upload";
+		// 서블릿의 실행 환경 정보를 담고 있는 객체를 리턴합니다.
+		ServletContext context = request.getSession().getServletContext();
+		String sDownloadPath = context.getRealPath(savePath);
+		
+		String sFilePath = sDownloadPath + filename;
+		
+		File file = new File(sFilePath);
+		
+		byte[] bytes = FileCopyUtils.copyToByteArray(file); // 유틸을 통해 byte array로 쉽게 생성 가능
+		
+		String sEncoding = new String(original.getBytes("utf-8"), "ISO-8859-1");
+		
+		// Content-Disposition: attachment: 브라우저는 해당 content를 처리하지 않고, 다운로드하게 됩니다.
+		response.setHeader("Content-Disposition", "attachment;filename=" + sEncoding);
+		
+		response.setContentLength(bytes.length);
+		
+		return bytes;
 	}
 }

@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>관리자모드(회원 정보 보기)</title>
-<jsp:include page="/board/header.jsp" />
+<jsp:include page="../board/header.jsp" />
 <style>
 	tr>td:nth-child(odd) {font-weight: bold}
 	td {text-align: center}
@@ -29,7 +29,7 @@
 			</tr>
 			<tr>
 				<td>나이</td>
-				<td>${memberinfo.age }</td>
+				<td>${memberinfo.age}</td>
 			</tr>
 			<tr>
 				<td>나이</td>
@@ -41,7 +41,7 @@
 			</tr>
 			<tr>
 				<td colspan=2>
-					<a href="memberList.net">리스트로 돌아가기</a>
+					<a href="list">리스트로 돌아가기</a>
 				</td>
 			</tr>
 		</table>

@@ -56,7 +56,7 @@ public class BoardServiceImpl implements BoardService {
 		map.put("num", num);
 		map.put("pass", pass);
 		Board result = dao.isBoardWriter(map);
-		if(result == null)
+		if (result == null)
 			return false;
 		else 
 			return true;
@@ -69,7 +69,12 @@ public class BoardServiceImpl implements BoardService {
 	
 	@Override
 	public int boardDelete(int num) {
-		return dao.boardDelete(getDetail(num));
+		int result = 0;
+		Board board = dao.getDetail(num);
+		if (board != null) {
+			result = dao.boardDelete(board);
+		}
+		return result;
 	}
 	
 	@Override

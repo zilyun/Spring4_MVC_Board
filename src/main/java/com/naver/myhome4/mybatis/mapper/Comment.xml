@@ -11,4 +11,9 @@
 		where board_num = #{board_num}
 	</select>
 
+	<insert id="commentsInsert">
+		insert into comments
+		values(com_seq.nextval, #{id}, #{content}, sysdate, #{board_num})
+	</insert>
+
 </mapper>

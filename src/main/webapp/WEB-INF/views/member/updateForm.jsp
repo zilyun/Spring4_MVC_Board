@@ -19,7 +19,7 @@ input[type=file] {
 </head>
 <body>
 <jsp:include page="../board/header.jsp" />
-<form name="joinform" action="updateProcess.net" method="post" enctype="multipart/form-data">
+<form name="joinform" action="updateProcess" method="post" enctype="multipart/form-data">
 	<h3>회원 정보 수정</h3>
 	<hr>
 	<b>아이디</b>
@@ -39,42 +39,14 @@ input[type=file] {
 	<b>이메일 주소</b>
 		<input type="text" name="email" value="${memberinfo.email}" 
 				placeholder="Enter email" required><span id="email_message"></span>
-	<b>프로필 사진</b>			
-	<label>
-		<img src="${pageContext.request.contextPath}/image/attach.png" width="10px">
-		<span id="filename">${memberinfo.memberfile}</span>
-		<span id="showImage">
-			<c:if test='${empty memberinfo.memberfile}'>
-				<c:set var='src' value='image/profile.png' />
-			</c:if>
-			<c:if test="${!empty memberinfo.memberfile}">
-				<c:set var='src' value='${"memberupload/"}${memberinfo.memberfile}'/> <%-- 나란히 쓰고 중간에 / --%>
-				<input type="hidden" name="check" value="${memberinfo.memberfile}"> 
-												<%-- 파일이 있는데 변경하지 않는 경우 그대로 유지 --%>
-			</c:if>
-			<img src="${src}" width="20px" alt="profile">
-		</span>
-		<%-- accept: 업로드할 파일 타입을 설정합니다. 
-			 <input type="file" accept="파일 확장자|audio/*|video/*|image/*">
-			 	(1) 파일 확장자는 .png, .jpg, .pdf, .hwp 처럼 (.) 으로 시작되는 파일 확장자를 의미합니다.
-			 					예) accept=".png, .jpg, .pdf, .hwp"
-			 	(2) audio/* : 모든 타입의 오디오 파일
-			 	(3) image/* : 모든 타입의 이미지 파일
-		--%>
-		<input type="file" name="memberfile" accept="image/*">
-	</label>
 	<div class="clearfix">
 		<button type="submit" class="submitbtn">수정</button>
-		<button type="button" class="cancelbtn">취소</button>
+		<button type="reset" class="cancelbtn">취소</button>
 	</div>	
 </form>
 <script>
 	// 성별 체크해주는 부분
 	$("input[value='${memberinfo.gender}']").prop('checked', true);
-	
-	$(".cancelbtn").click(function() {
-		history.back();
-	});
 	
 	// 처음 화면 로드 시 보여줄 이메일은 이미 체크 완료된 것이므로 기본 checkemail=true 입니다.
 	let checkemail = true;
@@ -101,6 +73,12 @@ input[type=file] {
 			$("input[name='age']").val('').focus();
 			return false;
 		}
+		
+		const length = $("input[name=gender]:checked").length;
+        if (length != 1) {
+            alert("남 또는 여를 선택하세요");
+            return false;
+        }
 		
 		if(!checkemail) {
 			alert('email 형식을 확인하세요.');

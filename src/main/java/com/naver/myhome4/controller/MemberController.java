@@ -1,6 +1,8 @@
 package com.naver.myhome4.controller;
 
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -152,4 +154,105 @@ public class MemberController {
 		return "redirect:login";
 	}
 	
+	// 회원 정보 수정 폼
+	@RequestMapping(value = "/update", method = RequestMethod.GET)
+	public ModelAndView member_update(HttpSession session,
+									  ModelAndView mv) {
+		String id = (String) session.getAttribute("id");
+		
+		if(id==null) {
+			mv.setViewName("redirect:login");
+			logger.info("id is null");
+		} else {
+			Member m = memberService.member_info(id);
+			mv.setViewName("member/updateForm");
+			mv.addObject("memberinfo", m);
+		}
+		return mv;
+	}
+	
+	// 수정처리
+	@RequestMapping(value = "/updateProcess", method = RequestMethod.POST)
+	public String updateProcess(Member member, Model model,
+								HttpServletRequest request,
+								RedirectAttributes rattr) {
+		
+		int result = memberService.update(member);
+		if (result == 1) {
+			rattr.addFlashAttribute("result", "updateSuccess");
+			return "redirect:/board/list";
+		} else {
+			model.addAttribute("url", request.getRequestURL());
+			model.addAttribute("message", "정보 수정 실패");
+			return "error/error";
+		}
+		
+	}
+	
+	/*
+	 * 1. header.jsp에서 이동하는 경우
+	 * 		href="${pageContext.request.contextPath}/member/list"
+	 * 2. member_list.jsp에서 이동하는 경우
+	 * 		<a href="list?page=2&search_field=-1&search_word=" class="page-link">2</a>
+	 * */
+	@RequestMapping(value = "/list")
+	public ModelAndView memberList(
+				@RequestParam(value = "page",  defaultValue = "1") int page,
+				@RequestParam(value = "limit", defaultValue = "3") int limit,
+				ModelAndView mv,
+				@RequestParam(value = "search_field", defaultValue = "-1") int index,
+				@RequestParam(value = "search_word", defaultValue = "") String search_word
+			) {
+		
+		int listcount = memberService.getSearchListCount(index, search_word); // 총 리스트 수를 받아옵니다.
+		
+		List<Member> list = memberService.getSearchList(index, search_word, page, limit);
+		
+		// 총 페이지 수
+		int maxpage = (listcount + limit - 1) / limit;
+		
+		// 현재 페이지에 보여줄 시작 페이지 수(1, 11, 21 등 ...)
+		int startpage = ((page - 1) / 10) * 10 + 1;
+		
+		// 현재 페이지에 보여줄 마지막 페이지 수(10, 20, 30 등 ...)
+		int endpage = startpage + 10 - 1;
+		
+		if (endpage > maxpage)
+			endpage = maxpage;
+		
+		mv.setViewName("member/memberList");
+		mv.addObject("page", page);
+		mv.addObject("maxpage", maxpage);
+		mv.addObject("startpage", startpage);
+		mv.addObject("endpage", endpage);
+		mv.addObject("listcount", listcount);
+		mv.addObject("memberlist", list);
+		mv.addObject("search_field", index);
+		mv.addObject("search_word", search_word);
+		return mv;
+	}
+	
+	@RequestMapping(value="info")
+	public ModelAndView memberInfo(@RequestParam("id")String id, 
+									ModelAndView mv,
+									HttpServletRequest request) {
+		Member m = memberService.member_info(id);
+		// m = null; // 오류 확인하는 값
+		if(m!=null) {
+			mv.setViewName("member/memberInfo");
+			mv.addObject("memberinfo", m);
+		} else {
+			mv.addObject("url", request.getRequestURL());
+			mv.addObject("message", "해당 정보가 없습니다.");
+			mv.setViewName("error/error");
+		}
+		return mv;
+	}
+	
+	// 삭제
+	@RequestMapping(value = "/delete", method=RequestMethod.GET)
+	public String member_delete(String id) {
+		memberService.delete(id);
+		return "redirect:list";
+	}
 }

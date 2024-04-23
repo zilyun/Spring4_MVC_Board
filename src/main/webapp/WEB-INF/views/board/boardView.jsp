@@ -151,9 +151,9 @@ form[action=down] > input[type=submit] {
 					<div class="modal-body">
 						<form name="deleteForm" action="delete" method="post">
 							<%-- http://localhost:8081/Board/BoardDetail.bo?num=22 
-													주소를 보면 num을 파라미터로 넘기고 있습니다.
-													이 값을 가져와서 ${param.num}를 사용
-													또는 ${boarddata.board_num}						
+									주소를 보면 num을 파라미터로 넘기고 있습니다.
+									이 값을 가져와서 ${param.num}를 사용
+									또는 ${boarddata.board_num}						
 							--%>
 							<input type="hidden" name="num" value="${param.num}" id="board_num" />
 							<div class="form-group">
