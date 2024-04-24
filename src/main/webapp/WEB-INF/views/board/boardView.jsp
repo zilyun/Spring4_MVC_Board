@@ -157,7 +157,7 @@ form[action=down] > input[type=submit] {
 							--%>
 							<input type="hidden" name="num" value="${param.num}" id="board_num" />
 							<div class="form-group">
-								<label for="pwd">비밀번호</label>
+								<label for="board_pass">비밀번호</label>
 								<input type="password"
 									   class="form-control" placeholder="Enter password"
 									   name="BOARD_PASS" id="board_pass">
